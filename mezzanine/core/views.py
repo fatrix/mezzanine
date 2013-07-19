@@ -1,5 +1,6 @@
 import os
 from urlparse import urljoin, urlparse
+from urllib2 import urlopen
 
 from django.contrib import admin
 from django.contrib.admin.views.decorators import staff_member_required
@@ -140,23 +141,34 @@ def static_proxy(request):
             url = url.replace(prefix, "", 1)
     response = ""
     mimetype = ""
+    remote = "http" in urlparse(url).scheme
+
+    # URL is on remote host (e.g. S3)
+    if remote:
+        response = urlopen(url).read()
+
+    # local file
     path = finders.find(url)
     if path:
         if isinstance(path, (list, tuple)):
             path = path[0]
         with open(path, "rb") as f:
             response = f.read()
-        mimetype = "application/octet-stream"
-        if url.endswith(".htm"):
-            # Inject <base href="{{ STATIC_URL }}"> into TinyMCE
-            # plugins, since the path static files in these won't be
-            # on the same domain.
-            mimetype = "text/html"
+
+    mimetype = "application/octet-stream"
+
+    static_url = url
+    if url.endswith(".htm"):
+        # Inject <base href="{{ STATIC_URL }}"> into TinyMCE
+        # plugins, since the path static files in these won't be
+        # on the same domain.
+        mimetype = "text/html"
+        if not remote:
             static_url = settings.STATIC_URL + os.path.split(url)[0] + "/"
-            if not urlparse(static_url).scheme:
-                static_url = urljoin(host, static_url)
-            base_tag = "<base href='%s'>" % static_url
-            response = response.replace("<head>", "<head>" + base_tag)
+        if not urlparse(static_url).scheme:
+            static_url = urljoin(host, static_url)
+        base_tag = "<base href='%s'>" % static_url
+        response = response.replace("<head>", "<head>" + base_tag)
     return HttpResponse(response, mimetype=mimetype)
 
 
