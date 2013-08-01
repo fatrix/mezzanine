@@ -43,6 +43,7 @@ interface, Mezzanine provides the following:
   * Configurable `dashboard`_ widgets
   * Blog engine
   * Tagging
+  * `Themes Marketplace`_
   * User accounts and profiles with email verification
   * Translated to over 20 languages
   * Sharing via Facebook or Twitter
@@ -169,7 +170,6 @@ up a development environment and run the unit tests, using
     $ cp mezzanine/project_template/local_settings.py.template mezzanine/project_template/local_settings.py
     $ ./mezzanine/project_template/manage.py test
 
-
 Language Translations
 =====================
 
@@ -189,6 +189,10 @@ have developed a module to integrate with Mezzanine and would like to
 list it here, send an email to the `mezzanine-users`_ mailing list.
 You can also add modules to the `Mezzanine Grid on djangopackages.com`_.
 
+  * `Cartridge`_ - ecommerce for Mezzanine.
+  * `Drum`_ - A `Hacker News`_ / `Reddit`_ clone powered by Mezzanine.
+  * `mezzanine-html5boilerplate`_ - Integrates the
+    `html5boilerplate project`_  into Mezzanine.
   * `mezzanine-html5boilerplate`_ - Integrates the
     `html5boilerplate project`_  into Mezzanine.
   * `mezzanine-mdown`_ - Adds `Markdown`_ support to Mezzanine's rich
@@ -236,8 +240,6 @@ You can also add modules to the `Mezzanine Grid on djangopackages.com`_.
   * `mezzanine-file-collections`_ - Simple file collection page type for Mezzanine.
   * `mezzanine-wymeditor`_ - `WYMeditor`_ adapted as the rich text
     editor for Mezzanine.
-
-
 
 Donating
 ========
@@ -418,6 +420,7 @@ Sites Using Mezzanine
   * `SaniCo <https://sanimedicaltourism.com>`_
   * `Grupo Invista <http://grupoinvista.com>`_
   * `Brooklyn Navy Yard <http://brooklynnavyyard.org/>`_
+  * `MEZZaTHEME <http://mezzathe.me>`_
 
 Quotes
 ======
@@ -445,6 +448,7 @@ Quotes
     development" - `John Campbell`_, founder of `Head3 Interactive`_
   * "You need to check out the open source project Mezzanine. In one
     word: Elegant" - `Nick Hagianis`_, developer
+
 
 .. GENERAL LINKS
 
@@ -475,8 +479,8 @@ Quotes
 .. _`custom content types`: http://mezzanine.jupo.org/docs/content-architecture.html#creating-custom-content-types
 .. _`Search engine and API`: http://mezzanine.jupo.org/docs/search-engine.html
 .. _`dashboard`: http://mezzanine.jupo.org/docs/admin-customization.html#dashboard
+.. _`Themes Marketplace`: http://mezzathe.me/
 .. _`Cartridge`: http://cartridge.jupo.org/
-.. _`Themes`: http://mezzanine.jupo.org/docs/themes.html
 .. _`Custom templates`: http://mezzanine.jupo.org/docs/content-architecture.html#page-templates
 .. _`test suite`: http://mezzanine.jupo.org/docs/packages.html#module-mezzanine.core.tests
 .. _`JVM`: http://en.wikipedia.org/wiki/Java_virtual_machine
@@ -513,6 +517,10 @@ Quotes
 
 .. THIRD PARTY LIBS
 
+.. _`Drum`: https://github.com/stephenmcd/drum
+.. _`Hacker News`: https://news.ycombinator.com
+.. _`Reddit`: http://www.reddit.com
+.. _`mezzanine-html5boilerplate`: https://github.com/tvon/mezzanine-html5boilerplate
 .. _`mezzanine-html5boilerplate`: https://github.com/tvon/mezzanine-html5boilerplate
 .. _`html5boilerplate project`: http://html5boilerplate.com/
 .. _`mezzanine-mdown`: https://bitbucket.org/onelson/mezzanine-mdown
