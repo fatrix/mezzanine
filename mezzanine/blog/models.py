@@ -1,3 +1,5 @@
+import os
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -25,6 +27,8 @@ class BlogPost(Displayable, Ownable, RichText, AdminThumbMixin):
         format="Image", max_length=255, null=True, blank=True)
     related_posts = models.ManyToManyField("self",
                                  verbose_name=_("Related posts"), blank=True)
+    private_access = models.CharField(max_length=34, null=True, blank=True,
+                                      verbose_name=_("Query string for private access"))
 
     admin_thumb_field = "featured_image"
 
@@ -32,6 +36,11 @@ class BlogPost(Displayable, Ownable, RichText, AdminThumbMixin):
         verbose_name = _("Blog post")
         verbose_name_plural = _("Blog posts")
         ordering = ("-publish_date",)
+
+    def save(self, *args, **kwargs):
+        if self.private_access is None:
+            self.private_access = os.urandom(16).encode('hex')
+        super(Displayable, self).save(*args, **kwargs)
 
     @models.permalink
     def get_absolute_url(self):
