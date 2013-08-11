@@ -1,7 +1,9 @@
 from calendar import month_name
+from django.contrib import messages
 
 from django.http import Http404
 from django.shortcuts import get_object_or_404
+from django.utils.translation import ugettext_lazy as _
 
 from mezzanine.blog.models import BlogPost, BlogCategory
 from mezzanine.blog.feeds import PostsRSS, PostsAtom
@@ -60,7 +62,13 @@ def blog_post_detail(request, slug, year=None, month=None, day=None,
     ``blog/blog_post_detail_XXX.html`` where ``XXX`` is the blog
     posts's slug.
     """
-    blog_posts = BlogPost.objects.published(
+    private = request.GET.get('private', None)
+    if private is not None:
+        blog_posts = BlogPost.objects.filter(private_access=request.GET['private'])
+        messages.add_message(request, messages.SUCCESS, _('This blog entry is not published yet, but you '
+                                                          'can access it privately.'))
+    else:
+        blog_posts = BlogPost.objects.published(
                                      for_user=request.user).select_related()
     blog_post = get_object_or_404(blog_posts, slug=slug)
     context = {"blog_post": blog_post, "editable_obj": blog_post}

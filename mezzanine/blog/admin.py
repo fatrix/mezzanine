@@ -11,6 +11,7 @@ from mezzanine.core.admin import DisplayableAdmin, OwnableAdmin
 
 blogpost_fieldsets = deepcopy(DisplayableAdmin.fieldsets)
 blogpost_fieldsets[0][1]["fields"].insert(1, "categories")
+blogpost_fieldsets[0][1]["fields"].insert(4, ('private_access_url',))
 blogpost_fieldsets[0][1]["fields"].extend(["content", "allow_comments"])
 blogpost_list_display = ["title", "user", "status", "admin_link"]
 if settings.BLOG_USE_FEATURED_IMAGE:
@@ -28,10 +29,16 @@ class BlogPostAdmin(DisplayableAdmin, OwnableAdmin):
     Admin class for blog posts.
     """
 
+    def private_access_url(self, obj):
+        return "<p><a target='_blank' href='%s?private=%s'>%s</a></p>" % \
+               (obj.get_absolute_url(),  obj.private_access, _("Open private access URL"))
+    private_access_url.allow_tags = True
+
     fieldsets = blogpost_fieldsets
     list_display = blogpost_list_display
     list_filter = blogpost_list_filter
     filter_horizontal = ("categories", "related_posts",)
+    readonly_fields = ("private_access_url",)
 
     def save_form(self, request, form, change):
         """
